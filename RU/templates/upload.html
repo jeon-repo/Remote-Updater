@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+    <title>github 자동 업로드</title>
+</head>
+<body>
+    <h1>그림</h1>
+    <form action="/uploadDrawing"
+        method="post"
+        enctype="multipart/form-data">
+        그림 : <input type="file" name="upload_drawing" />
+        <br>
+        <br>
+        <input type="submit" value="업로드" />
+    </form>
+    <br>
+    <br>
+    <h1>포스팅</h1>
+    <form action="/uploadPost"
+        method="post"
+        enctype="multipart/form-data">
+        포스팅 : <input type="file" name="upload_post" />
+        <br>
+        <br>
+        포스팅 이미지 : <input type="file" name="upload_post_img" />
+        <br>
+        <br>
+        <input type="submit" value="업로드" />
+    </form>
+</body>
+</html>
