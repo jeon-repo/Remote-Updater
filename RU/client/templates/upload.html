@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>github 자동 업로드</title>
+    <link href="../static/css/style.css" rel="stylesheet" />
+    <script type="text/javascript">
+        selectRadio = (value) => {
+            console.log(value);
+            if (value === '그림') {
+                document.getElementById('draw').hidden = false;
+                document.getElementById('post').hidden = true;
+            } else {
+                document.getElementById('draw').hidden = true;
+                document.getElementById('post').hidden = false;
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div id="content">
+        <div id="form-main">
+            <div id="form-div">
+                <div class="choice">
+                    <input type="radio" name="upload_type" onclick="selectRadio(this.value)" checked='checked'
+                        value='포스팅'>포스팅
+                    <input type="radio" name="upload_type" onclick="selectRadio(this.value)" value="그림">그림
+                </div>
+                <div class="post" id='post'>
+                    <h1>포스팅</h1>
+                    <form action="/uploadPost" id="form1" method="post" enctype="multipart/form-data">
+                        포스팅 : <input type="file" name="upload_post" />
+                        <br>
+                        <br>
+                        포스팅 이미지 : <input type="file" name="upload_post_img" />
+                        <br>
+                        <br>
+                        <div class="submit">
+                            <input type="submit" value="업로드" id="button-blue" />
+                            <div class="ease"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="draw" id="draw" hidden>
+                    <h1>그림</h1>
+                    <form action="/uploadDrawing" method="post" enctype="multipart/form-data">
+                        그림 : <input type="file" name="upload_drawing" />
+                        <br>
+                        <br>
+                        <div class="submit">
+                            <input type="submit" value="업로드" id="button-blue" />
+                            <div class="ease"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="../static/js/script.js"></script> -->
+</body>
+
+</html>
