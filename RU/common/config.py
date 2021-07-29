@@ -14,6 +14,7 @@ class Config:
     def getPath(self):
         return (
             self.config['options']['TABLET_MODEL'],
+            self.config['options']['CONNECTION_BROWER'],
             self.config['options']['POST_PATH'],
             self.config['options']['POST_IMG_PATH'],
             self.config['options']['DRAWING_PATH']

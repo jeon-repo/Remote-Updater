@@ -6,13 +6,14 @@ from RU.common.config import Config
 config = Config()
 app = Flask('Remote-Updater', template_folder='RU/templates/')
 
-TABLET_MODEL, POST_PATH, POST_IMG_PATH, DRAWING_PATH = config.getPath()
+TABLET_MODEL, CONNECTION_BROWER, POST_PATH, POST_IMG_PATH, DRAWING_PATH = config.getPath()
 PYTHON_PATH, SCRIPT_PATH = config.getScriptPath()
+KR_KEY = config.getKR_key()
 
 @app.route('/')
 def main():
     device_info = request.user_agent.string
-    if TABLET_MODEL in device_info:
+    if TABLET_MODEL in device_info and CONNECTION_BROWER in device_info:
         return render_template('upload.html')
     else:
         return '<h1>접근 불가, 지정된 기기로만 접근 가능</h1>'
