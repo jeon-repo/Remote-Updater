@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+from functools import wraps
 from flask import Flask, request, render_template
 from RU.common.config import Config
 
@@ -9,15 +10,27 @@ app = Flask('Remote-Updater', static_folder='RU/client/static/', template_folder
 TABLET_MODEL, CONNECTION_BROWER, POST_PATH, POST_IMG_PATH, DRAWING_PATH = config.getPath()
 PYTHON_PATH, SCRIPT_PATH = config.getScriptPath()
 
+def device_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        try:
+            device_info = request.user_agent.string
+            if TABLET_MODEL in device_info and CONNECTION_BROWER in device_info:
+                return f(*args, **kwargs)
+            else:
+                return '<h1>접근 불가, 지정된 기기로만 접근 가능</h1>'
+        except Exception as e:
+            print(e)
+            return '<h1>접근 불가, 지정된 기기로만 접근 가능</h1>'
+    return decorated_function
+        
 @app.route('/')
+@device_required
 def main():
-    device_info = request.user_agent.string
-    if TABLET_MODEL in device_info and CONNECTION_BROWER in device_info:
-        return render_template('upload.html')
-    else:
-        return '<h1>접근 불가, 지정된 기기로만 접근 가능</h1>'
+    return render_template('upload.html')
 
 @app.route('/uploadDrawing', methods=['GET', 'POST'])
+@device_required
 def upload_drawing():
     if request.method == 'POST':
         try:
@@ -30,6 +43,7 @@ def upload_drawing():
             return f'<h1>{e}</h1>'
 
 @app.route('/uploadPost', methods=['GET', 'POST'])
+@device_required
 def upload_post():
     if request.method == 'POST':
         try:
@@ -53,6 +67,7 @@ def upload_post():
             return f'<h1>{e}</h1>'
 
 @app.route('/script/<method>', methods=['GET'])
+@device_required
 def script_run(method):
     try:
         os.system(f'{PYTHON_PATH} {SCRIPT_PATH}/{method}.py')
